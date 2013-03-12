@@ -28,7 +28,7 @@ def parse ():
   parser.add_argument('-f','--externalfile', help='whether parameters should be taken from an external file', dest='file', action='store_const', const=True)
   parser.add_argument('-extpath','--externalfilepath', help='path of external file contining parameters', dest='extpath')
 
-  log = t_logger.setup(__name__)
+  log = t_logger.getLogger(__name__)
   log.debug('Args parsed succesfully')
   
   return parser.parse_args()

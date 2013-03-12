@@ -1,1 +1,1 @@
-transodingString=gst-launch filesrc location=$src ! decodebin2 name=d d. ! queue ! ffmpegcolorspace ! videoscale ! video/x-raw-yuv ! deinterlace ! ffmpegcolorspace ! x264enc profile=1 ! mp4mux name=mux ! filesink location=$dest d. ! queue ! audioconvert ! audioresample ! faac ! mux.
+transcodingString=gst-launch filesrc location=$src ! decodebin2 name=d d. ! queue ! ffmpegcolorspace ! videoscale ! video/x-raw-yuv ! deinterlace ! ffmpegcolorspace ! x264enc profile=1 ! mp4mux name=mux ! filesink location=$dest d. ! queue ! audioconvert ! audioresample ! faac ! mux.

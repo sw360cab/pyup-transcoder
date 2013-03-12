@@ -4,11 +4,12 @@ import t_logger
 import os
 
 def connect(s3params):
-  log = t_logger.setup(__name__)
+  log = t_logger.getLogger(__name__)
   conn = S3Connection(s3params.s3keyid, s3params.s3secretkey)
   return conn
 
 def upload(s3,bucketName,path):
+  log = t_logger.getLogger(__name__)
   bucket = s3.create_bucket(bucketName)
   log.info('Bucket %s is OK',bucketName)
 

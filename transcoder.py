@@ -64,7 +64,10 @@ def main() :
         # deal with transcoding
         if (params.transcode):
           try :
-            finalName, finalPath = gst_transcoder.transcodeFile(name,root,dest,params.transodingString)
+            if (hasattr(params,'transcodingString')):
+              finalName, finalPath = gst_transcoder.transcodeFile(name,root,dest,params.transcodingString)
+            else:
+              finalName, finalPath = gst_transcoder.transcodeFile(name,root,dest)
           except RuntimeError:
             log.info("File %s NOT transcoded", root+os.sep+name) 
         # deal with ftp

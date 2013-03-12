@@ -17,3 +17,6 @@ def setup (appName):
   logging.debug('Logger setup completed')
   return logging.getLogger(appName)
 
+def getLogger (moduleName):
+  return logging.getLogger(moduleName)
+

@@ -5,11 +5,10 @@ import mimetypes
 import t_logger
 
 def transcodeFile (originalFilename,sourcePath,destPath,
-  transcodingString='''gst-launch filesrc location=$src ! decodebin2 name=d d. ! queue ! ffmpegcolorspace ! videoscale ! deinterlace !   
+  transcodingString='''gst-launch filesrc location=$src ! decodebin2 name=d d. ! queue ! ffmpegcolorspace ! videoscale ! deinterlace ! 
   x264enc profile=1 ! mp4mux name=mux ! filesink location=$dest d. ! queue ! audioconvert ! audioresample ! faac ! mux.'''):
-  print transcodingString
   # transcode using GStreamer
-  log = t_logger.setup(__name__)
+  log = t_logger.getLogger(__name__)
   log.debug('current file is: %s', originalFilename)
   sourceFile = sourcePath + os.sep + originalFilename
 

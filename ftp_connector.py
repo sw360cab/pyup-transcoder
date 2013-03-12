@@ -3,10 +3,7 @@ import t_logger
 
 def connect(ftpparams):
   ftp = ftplib.FTP()
-  
-  global log
-  
-  log= t_logger.setup(__name__)
+  log= t_logger.getLogger(__name__)
 
   ftp.connect(ftpparams.host, ftpparams.port)
   if (hasattr(ftpparams,'username')):
@@ -28,6 +25,7 @@ def connect(ftpparams):
   return ftp
 
 def upload(ftp,fileName,filePath):
+  log = t_logger.getLogger(__name__)
   log.info('FTP upload of %s started @ %s:%s',fileName,ftp.host,ftp.port)
   ftp.storbinary("STOR " + fileName, open(filePath, "rb"),1024)
   log.info('FTP trasfer of %s completed',fileName)
