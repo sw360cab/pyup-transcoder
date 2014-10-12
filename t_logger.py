@@ -1,7 +1,7 @@
 import logging
 
 def setup (appName):
-  fmt = '%(asctime)s %(name)-10s %(levelname)-6s %(message)s'
+  fmt = '%(asctime)s %(name)-10s %(levelname)-5s %(message)s'
   logging.basicConfig(level=logging.DEBUG,
                       format=fmt,
                       datefmt='%m/%d/%y %H:%M',

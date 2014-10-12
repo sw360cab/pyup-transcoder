@@ -21,7 +21,7 @@ def parse(completeLine,separator=r'='):
   uncommentedStr = re.sub ( r'((#.*)?$)', '',  completeLine )
   if (len(uncommentedStr) > 0):
     key,value=re.split(separator,uncommentedStr,1)
-    #do stri strings
+    #do strip strings
     return key.strip(),value.strip()
 
 if __name__ == "__main__":

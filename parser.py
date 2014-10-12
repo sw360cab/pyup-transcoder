@@ -5,6 +5,7 @@ def parse ():
   parser = argparse.ArgumentParser(description='A simple transcoder and uploader software')
   parser.add_argument('-in', '--input', help='input folder',required=True)
   parser.add_argument('-out', '--output', help='optional output folder')
+  parser.add_argument('-i', '--inplace', help='processing inplace. Input folder is output folder', action='store_const', const=True)
   parser.add_argument('-r', '--removelocal', help='remove created files after execution', dest='remove', action='store_const', const=True)
 
   parser.add_argument('-t','--transcode',help='whether to transcode or not', action='store_const', const=True)

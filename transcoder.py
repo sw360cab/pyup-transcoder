@@ -32,7 +32,11 @@ def main() :
   #
   # handle dest folder
   #
-  dest = params.output if params.output else params.input + os.sep + 'transcoded'
+  if (params.inplace):
+    dest = params.input
+  else:
+    dest = getOutputFolder ( params.input, params.output )
+  
   try:
     os.mkdir(dest) 
   except: 
@@ -49,7 +53,7 @@ def main() :
       s3 = s3_connector.connect(params)
     else:
       log.info("Only FTP and S3 supported")
-
+   
   #
   # SOURCEDIR recursive exploration 
   # + TRANSCODING
@@ -57,7 +61,7 @@ def main() :
   #
   for root, dirs, files in os.walk(params.input):
     if root != dest: # it may happen that dest is inside root folder
-      print 'rd',root,dest
+      log.info('current processed folders are %s and %s',root,dest)
       for name in files:
         finalName = name
         finalPath = root + os.sep + name
@@ -73,7 +77,7 @@ def main() :
         # deal with ftp
         if ftp:
           ftp_connector.upload(ftp,finalName,finalPath)
-        #deal with s3
+        # deal with s3
         elif s3:
           s3_connector.upload(s3,bucketName,finalPath)
 
@@ -85,6 +89,19 @@ def main() :
     log.info("%s folder removed", dest) 
   
   log.info('Done!')
+
+def getOutputFolder ( input, output ) :
+  # check if input contains os.sep at the end 
+  input = input if input[len(input)-1] == os.sep else input + os.sep
+
+  if output:
+    if ( os.path.isabs(output) ) is True:
+      dest = output
+    else:
+      dest = input + output
+  else:
+    dest = input + 'transcoded'
+  return dest
 
 if __name__ == '__main__': main()
 
