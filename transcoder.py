@@ -38,7 +38,7 @@ def main() :
     dest = getOutputFolder ( params.input, params.output )
   
   try:
-    os.mkdir(dest) 
+    os.mkdir(dest)
   except: 
     log.debug('%s folder already exists', dest)
 
@@ -53,7 +53,7 @@ def main() :
       s3 = s3_connector.connect(params)
     else:
       log.info("Only FTP and S3 supported")
-   
+  
   #
   # SOURCEDIR recursive exploration 
   # + TRANSCODING
@@ -62,18 +62,27 @@ def main() :
   for root, dirs, files in os.walk(params.input):
     if root != dest: # it may happen that dest is inside root folder
       log.info('current processed folders are %s and %s',root,dest)
+      if (params.createtree):
+        finalDest = generateIntermediateFolder(params.input, root, dest)
+
       for name in files:
         finalName = name
         finalPath = root + os.sep + name
+
         # deal with transcoding
         if (params.transcode):
           try :
             if (hasattr(params,'transcodingString')):
-              finalName, finalPath = gst_transcoder.transcodeFile(name,root,dest,params.transcodingString)
+              finalName, finalPath = \
+                gst_transcoder.transcodeFile(name,root,finalDest, \
+                  preserveDate=(params.nopreserve) is None, \
+                  transcodingString=params.transcodingString)
             else:
-              finalName, finalPath = gst_transcoder.transcodeFile(name,root,dest)
+              finalName, finalPath = \
+                gst_transcoder.transcodeFile(name,root,finalDest, \
+                  preserveDate=(params.nopreserve) is None)
           except RuntimeError:
-            log.info("File %s NOT transcoded", root+os.sep+name) 
+            log.info("File %s NOT transcoded", root+os.sep+name)
         # deal with ftp
         if ftp:
           ftp_connector.upload(ftp,finalName,finalPath)
@@ -101,6 +110,18 @@ def getOutputFolder ( input, output ) :
       dest = input + output
   else:
     dest = input + 'transcoded'
+  return dest
+
+def generateIntermediateFolder (inputRoot, src, destRoot):
+  if (inputRoot == src):
+    return destRoot
+
+  intermPath = src.replace(inputRoot,"")
+  dest = destRoot + intermPath
+  try:
+    os.makedirs(dest)
+  except: 
+    log.debug('%s folder already exists', dest)
   return dest
 
 if __name__ == '__main__': main()

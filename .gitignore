@@ -1,4 +1,7 @@
 .DS_Store
 *.pyc
 *.log
+*.swp
 examples.txt
+ext-param-*.txt
+pythontodo.txt

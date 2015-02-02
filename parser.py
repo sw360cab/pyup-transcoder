@@ -11,7 +11,11 @@ def parse ():
   parser.add_argument('-t','--transcode',help='whether to transcode or not', action='store_const', const=True)
   parser.add_argument('-up','--upload',help='whether to upload or not', action='store_const', const=True)
   parser.add_argument('-via', help='upload with [ftp] or [s3]', choices=['ftp', 's3'], default='ftp')
-  
+
+  # Misc
+  parser.add_argument('-nopres','--nopreserve',help='do not preserve original dates in resulting files', action='store_const', const=False)
+  parser.add_argument('-ctree','--createtree',help='recreate source folder tree in dest folder', action='store_const', const=True)
+
   # FTP params
   parser.add_argument('-ftphost', help='FTP host', dest='host')
   parser.add_argument('-ftpport', help='FTP port', default=21, type=int, dest='port')
